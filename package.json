@@ -13,8 +13,13 @@
   },
   "dependencies": {
     "@as-integrations/express5": "^1.1.2",
+    "@prisma/client": "^6.16.2",
+    "@types/bcrypt": "^6.0.0",
+    "bcrypt": "^6.0.0",
     "express": "^5.1.0",
     "graphql": "^16.11.0",
+    "prisma": "^6.16.2",
+    "ts-node": "^9.1.1",
     "tsc-watch": "^7.1.1",
     "typescript": "^5.9.2"
   },

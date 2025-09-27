@@ -3,6 +3,8 @@ import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@as-integrations/express5";
 import { PrismaClient } from "@prisma/client";
 import createGqlServer from "./graphql/index.js";
+import { User } from "./graphql/user/index.js";
+import UserService from "./services/user.js";
 // import { createGqlServer } from "../src/graphql/index.js";
 
 // Create Prisma client instance
@@ -20,8 +22,21 @@ async function init() {
     res.send("Hello World!");
   });
 
-  const gqlServer = await createGqlServer();
-  app.use("/graphql", expressMiddleware(gqlServer));
+  // const gqlServer = ;
+  app.use(
+    "/graphql",
+    expressMiddleware(await createGqlServer(), {
+      context: async ({ req }) => {
+        const token = req.headers['token'];
+        try {
+          const user = UserService.decodeToken(token as string);
+          return { user };
+        } catch (error) {
+          return { user: null };
+        }
+      },
+    })
+  );
 
   app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
